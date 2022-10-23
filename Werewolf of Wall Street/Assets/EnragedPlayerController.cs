@@ -15,6 +15,7 @@ public class EnragedPlayerController : MonoBehaviour
     private float movementX = 0f;
     private float movementY = 0f;
     public float speed = 1;
+    public float offset = 0;
     public float rotationSpeed = 1;
     private int YSign = 1;
     private Vector2 dir;
@@ -43,7 +44,7 @@ public class EnragedPlayerController : MonoBehaviour
     void OnRage()
     {
         normalPlayer.SetActive(true);
-        normalPlayer.transform.position = enragedPlayer.transform.position;
+        normalPlayer.transform.position = enragedPlayer.transform.position + new Vector3(0f, offset, 0f);
         camFlw.player = normalPlayer.transform;
         movementX = 0;
         movementY = 0;
@@ -55,8 +56,7 @@ public class EnragedPlayerController : MonoBehaviour
     {
         rb.rotation = rb.rotation - (rotationSpeed * movementX);
         rb.AddRelativeForce(new Vector2(0,1) * speed);
-        Debug.Log(rb.rotation % 360);
-        if (rb.rotation % 360 < 180)
+        if ((rb.rotation % 360 < 180 && rb.rotation > 0) || (rb.rotation % 360 < -180 || rb.rotation > 0))
         {
             enragedSpriteSR.flipX = true;  
 		}

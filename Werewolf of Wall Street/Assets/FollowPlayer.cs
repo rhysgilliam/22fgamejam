@@ -7,6 +7,7 @@ public class FollowPlayer : MonoBehaviour
     private Transform cam;
     public Transform player;
     public int distance = 10;
+    public float offset = 0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +17,6 @@ public class FollowPlayer : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        cam.position = new Vector3(player.position.x, player.position.y, -distance);
+        cam.position = new Vector3(player.position.x, player.position.y + offset, -distance);
     }
 }

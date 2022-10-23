@@ -10,9 +10,11 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer sr;
     private Animator anim;
     public SpriteRenderer enragedSR;
+    public SpriteRenderer enragedSpriteSR;
     private float movementX;
     private float movementY;
     public float speed = 1;
+    public float offset = 0;
     public GameObject enragedPlayer;
     public GameObject enragedSprite;
     public GameObject normalPlayer;
@@ -54,17 +56,15 @@ public class PlayerController : MonoBehaviour
 
    private void OnRage()
    {
-        enragedPlayer.transform.position = normalPlayer.transform.position;
-        
+        enragedPlayer.SetActive(true);
+        enragedSprite.SetActive(true);
+        enragedRb.position = normalPlayer.transform.position + new Vector3(0f, offset, 0f);
         enragedPlayer.transform.rotation = normalPlayer.transform.rotation;
         enragedPlayer.transform.Rotate(0, 0, - 90 * lastMove.x);
         if (lastMove.y < 0)
         {
             enragedPlayer.transform.Rotate(0, 0, - 180 * lastMove.y);
 		}
-
-        enragedPlayer.SetActive(true);
-        enragedSprite.SetActive(true);
         movementX = 0;
         movementY = 0;
         camFlw.player = enragedPlayer.transform;
