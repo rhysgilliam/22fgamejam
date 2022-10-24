@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
     public GameObject moon;
     public int nextHunger = 5;
     public Canvas canvas;
+    public bool isRespawned = false;
+    public GameObject home;
     
     void Start()
     { 
@@ -37,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
    private void OnMove(InputValue movementValue)
    {
-       if (Meters.companyStanding > 0)
+       if (Meters.companyStanding > 0 && !home.activeSelf)
        {
            Vector2 movementVector = movementValue.Get<Vector2>();
  
@@ -66,12 +68,13 @@ public class PlayerController : MonoBehaviour
 
    private void OnRage()
    {
-        if (Meters.companyStanding > 0f)
+        if (Meters.companyStanding > 0f && !home.activeSelf)
         {
             howl.Play();
             GameObject myMoon = Object.Instantiate(moon, new Vector3(0,0,0), Quaternion.identity);
             myMoon.transform.SetParent(canvas.transform, false);
             Meters.hunger = nextHunger;
+            Debug.Log(Meters.hunger);
             nextHunger += 3;
             enragedPlayer.SetActive(true);
             enragedSprite.SetActive(true);
@@ -93,10 +96,18 @@ public class PlayerController : MonoBehaviour
 
    void FixedUpdate()
    {
-        if (Meters.companyStanding > 0f)
+        if (Meters.companyStanding > 0f && !home.activeSelf)
         {
             Vector2 movement = new Vector2(movementX, movementY);
             rb.AddForce(movement * speed);
         }
+        if (Meters.playAgain && !isRespawned)
+        {
+            nextHunger = 5;
+            isRespawned = true;
+            rb.position = new Vector3(1.2f, -12.3f, 0f);  
+            enragedRb.position = rb.position;
+            enragedSprite.transform.position = rb.position;
+		}
    }
 }

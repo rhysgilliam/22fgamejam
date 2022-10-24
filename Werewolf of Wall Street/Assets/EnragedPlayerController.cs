@@ -23,6 +23,7 @@ public class EnragedPlayerController : MonoBehaviour
     public AudioClip normalMusic;
     public AudioClip rageMusic;
     public float speedIncrement = 1f;
+    public PlayerController pc;
 
     void Start()
     { 
@@ -47,7 +48,7 @@ public class EnragedPlayerController : MonoBehaviour
 
     void RageSubdued()
     {
-        Meters.hunger = -1;
+        //Meters.hunger = -1;
         normalPlayer.SetActive(true);
         music.clip = normalMusic;
         music.Play();
@@ -62,6 +63,12 @@ public class EnragedPlayerController : MonoBehaviour
 
     void FixedUpdate()
     {   
+        if (Meters.playAgain)
+        {
+            Meters.playAgain = false;
+            pc.isRespawned = false;
+            speed = 1500;
+		}
         if (Meters.hunger <= 0 || Meters.companyStanding <= 0)
         {
             RageSubdued();  

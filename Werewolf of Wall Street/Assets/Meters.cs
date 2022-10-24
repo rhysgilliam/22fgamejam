@@ -8,16 +8,30 @@ public class Meters : MonoBehaviour
 {
 	public static int peopleEaten = 0;
 	public static int companyStanding = 100;
-	public static int hunger = -1;
+	public static int hunger = 5;
 	public TMP_Text hungerText;
 	public TMP_Text standingText;
 	public TMP_Text certificateText;
+	public TMP_Text totalEatenText;
 	public Image standingMeter;
 	public Image standingMeterBkgd;
 	public GameObject certificate;
+	public static bool playAgain;
+	public GameObject enraged;
+	public GameObject home;
 
 	void Update()
 	{
+		if (playAgain)
+		{
+			peopleEaten = 0;
+			companyStanding = 100;
+			hunger = 5;
+			standingMeter.enabled = true;
+			standingMeterBkgd.enabled = true;
+			certificate.SetActive(false);
+			home.SetActive(false);
+		}
 		if (companyStanding <= 0)
 		{
 			standingText.text = "";
@@ -49,7 +63,11 @@ public class Meters : MonoBehaviour
 					break;
 			}
 		}
-		if (hunger != -1)
+		if (hunger == 1)
+		{
+			hungerText.text = "You hunger for 1 more person.";
+		}
+		else if (enraged.activeSelf)
 		{
 			hungerText.text = $"You hunger for {hunger} more people.";
 		}
@@ -58,5 +76,15 @@ public class Meters : MonoBehaviour
 			hungerText.text = "";
 		}
 		standingMeter.transform.localScale = new Vector3((companyStanding/100f), (companyStanding/100f), (companyStanding/100f));
+		totalEatenText.text = $"{peopleEaten} People Eaten";
+	}
+	public void PlayGameAgain()
+	{
+		playAgain = true;
+	}
+
+	public void Exit()
+	{
+		Application.Quit();
 	}
 }
