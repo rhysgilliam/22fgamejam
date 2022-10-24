@@ -62,7 +62,7 @@ public class EnragedPlayerController : MonoBehaviour
 
     void FixedUpdate()
     {   
-        if (Meters.hunger <= 0)
+        if (Meters.hunger <= 0 || Meters.companyStanding <= 0)
         {
             RageSubdued();  
 		}

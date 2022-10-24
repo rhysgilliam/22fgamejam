@@ -35,55 +35,64 @@ public class PlayerController : MonoBehaviour
 
    private void OnMove(InputValue movementValue)
    {
-       Vector2 movementVector = movementValue.Get<Vector2>();
+       if (Meters.companyStanding > 0)
+       {
+           Vector2 movementVector = movementValue.Get<Vector2>();
  
-       movementX = movementVector.x;
-       movementY = movementVector.y;
-       if (movementX > 0)
-       {
-            sr.flipX = false;
-	   }
-       else if(movementX < 0)
-       {
-            sr.flipX = true;
-	   }
+           movementX = movementVector.x;
+           movementY = movementVector.y;
+           if (movementX > 0)
+           {
+                sr.flipX = false;
+	       }
+           else if(movementX < 0)
+           {
+                sr.flipX = true;
+	       }
 
-       if (movementX != 0 || movementY != 0)
-       {    
-            anim.SetBool("IsWalking", true);
-            lastMove = movementVector;
+           if (movementX != 0 || movementY != 0)
+           {    
+                anim.SetBool("IsWalking", true);
+                lastMove = movementVector;
+           }
+           else
+           {
+                anim.SetBool("IsWalking", false);
+	       }
        }
-       else
-       {
-            anim.SetBool("IsWalking", false);
-	   }
    }
 
    private void OnRage()
    {
-        howl.Play();
-        Meters.hunger = nextHunger;
-        nextHunger += 3;
-        enragedPlayer.SetActive(true);
-        enragedSprite.SetActive(true);
-        enragedRb.position = normalPlayer.transform.position + new Vector3(0f, offset, 0f);
-        enragedPlayer.transform.rotation = normalPlayer.transform.rotation;
-        enragedPlayer.transform.Rotate(0, 0, - 90 * lastMove.x);
-        if (lastMove.y < 0)
+        if (Meters.companyStanding > 0f)
         {
-            enragedPlayer.transform.Rotate(0, 0, - 180 * lastMove.y);
-		}
-        movementX = 0;
-        movementY = 0;
-        camFlw.player = enragedPlayer.transform;
-        normalPlayer.SetActive(false);
-        music.clip = rageMusic;
-        music.Play();
+            howl.Play();
+            Meters.hunger = nextHunger;
+            nextHunger += 3;
+            enragedPlayer.SetActive(true);
+            enragedSprite.SetActive(true);
+            enragedRb.position = normalPlayer.transform.position + new Vector3(0f, offset, 0f);
+            enragedPlayer.transform.rotation = normalPlayer.transform.rotation;
+            enragedPlayer.transform.Rotate(0, 0, - 90 * lastMove.x);
+            if (lastMove.y < 0)
+            {
+                enragedPlayer.transform.Rotate(0, 0, - 180 * lastMove.y);
+		    }
+            movementX = 0;
+            movementY = 0;
+            camFlw.player = enragedPlayer.transform;
+            normalPlayer.SetActive(false);
+            music.clip = rageMusic;
+            music.Play();
+        }
     }
 
    void FixedUpdate()
    {
-        Vector2 movement = new Vector2(movementX, movementY);
-        rb.AddForce(movement * speed);
+        if (Meters.companyStanding > 0f)
+        {
+            Vector2 movement = new Vector2(movementX, movementY);
+            rb.AddForce(movement * speed);
+        }
    }
 }

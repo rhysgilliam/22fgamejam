@@ -7,6 +7,7 @@ public class WallCollide : MonoBehaviour
     private BoxCollider2D coll;
     private SpriteRenderer sprite;
     public Sprite cracked;
+    bool hasCollided = false;
     void Start()
     {
        coll = GetComponent<BoxCollider2D>();
@@ -15,8 +16,10 @@ public class WallCollide : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collided)
     {
-        if(collided.collider.name == "Enraged Character")
+        if(collided.collider.name == "Enraged Character" && !hasCollided)
         {
+            hasCollided = true;
+            Meters.companyStanding -= 4;
             sprite.sprite = cracked;
 		}
     }
