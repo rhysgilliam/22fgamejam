@@ -24,7 +24,9 @@ public class PlayerController : MonoBehaviour
     public AudioSource music;
     public AudioClip normalMusic;
     public AudioClip rageMusic;
+    public GameObject moon;
     public int nextHunger = 5;
+    public Canvas canvas;
     
     void Start()
     { 
@@ -67,6 +69,8 @@ public class PlayerController : MonoBehaviour
         if (Meters.companyStanding > 0f)
         {
             howl.Play();
+            GameObject myMoon = Object.Instantiate(moon, new Vector3(0,0,0), Quaternion.identity);
+            myMoon.transform.SetParent(canvas.transform, false);
             Meters.hunger = nextHunger;
             nextHunger += 3;
             enragedPlayer.SetActive(true);
