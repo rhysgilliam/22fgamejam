@@ -20,6 +20,7 @@ public class getEaten : MonoBehaviour
     private float timeElapsed = 0f;
     public float respawnTime = 5f;
     public GameObject respawner;
+    public ParticleSystem part;
 
     void Start()
     {
@@ -58,6 +59,7 @@ public class getEaten : MonoBehaviour
             Meters.peopleEaten++;
             audioData.Play();
             Object.Instantiate(respawner, thisGuy.transform.position, Quaternion.identity);
+            part.Play();
             GameObject.Destroy(thisGuy);
 		}
         else if(other.name != "Player (Normal)")
