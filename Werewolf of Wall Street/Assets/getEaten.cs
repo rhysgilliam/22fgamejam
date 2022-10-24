@@ -54,6 +54,7 @@ public class getEaten : MonoBehaviour
     {
         if(other.name == "Enraged Character")
         {
+            Meters.hunger--;
             audioData.Play();
             Object.Instantiate(respawner, thisGuy.transform.position, Quaternion.identity);
             GameObject.Destroy(thisGuy);

@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource music;
     public AudioClip normalMusic;
     public AudioClip rageMusic;
+    public int nextHunger = 5;
     
     void Start()
     { 
@@ -61,6 +62,8 @@ public class PlayerController : MonoBehaviour
    private void OnRage()
    {
         howl.Play();
+        Meters.hunger = nextHunger;
+        nextHunger += 3;
         enragedPlayer.SetActive(true);
         enragedSprite.SetActive(true);
         enragedRb.position = normalPlayer.transform.position + new Vector3(0f, offset, 0f);

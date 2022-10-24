@@ -22,6 +22,7 @@ public class EnragedPlayerController : MonoBehaviour
     public AudioSource music;
     public AudioClip normalMusic;
     public AudioClip rageMusic;
+    public float speedIncrement = 1f;
 
     void Start()
     { 
@@ -44,8 +45,9 @@ public class EnragedPlayerController : MonoBehaviour
 		}
     }
 
-    void OnRage()
+    void RageSubdued()
     {
+        Meters.hunger = -1;
         normalPlayer.SetActive(true);
         music.clip = normalMusic;
         music.Play();
@@ -55,10 +57,16 @@ public class EnragedPlayerController : MonoBehaviour
         movementY = 0;
         enragedPlayer.SetActive(false);
         enragedSprite.SetActive(false);
+        speed += speedIncrement;
     }
 
     void FixedUpdate()
-    {
+    {   
+        if (Meters.hunger <= 0)
+        {
+            RageSubdued();  
+		}
+
         rb.rotation = rb.rotation - (rotationSpeed * movementX);
         rb.AddRelativeForce(new Vector2(0,1) * speed);
         if ((rb.rotation % 360 < 180 && rb.rotation > 0) || (rb.rotation % 360 < -180 || rb.rotation > 0))
