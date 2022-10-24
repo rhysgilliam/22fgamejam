@@ -19,7 +19,10 @@ public class EnragedPlayerController : MonoBehaviour
     public float rotationSpeed = 1;
     private int YSign = 1;
     private Vector2 dir;
-    
+    public AudioSource music;
+    public AudioClip normalMusic;
+    public AudioClip rageMusic;
+
     void Start()
     { 
         rb = GetComponent<Rigidbody2D>();
@@ -44,6 +47,8 @@ public class EnragedPlayerController : MonoBehaviour
     void OnRage()
     {
         normalPlayer.SetActive(true);
+        music.clip = normalMusic;
+        music.Play();
         normalPlayer.transform.position = enragedPlayer.transform.position + new Vector3(0f, offset, 0f);
         camFlw.player = normalPlayer.transform;
         movementX = 0;

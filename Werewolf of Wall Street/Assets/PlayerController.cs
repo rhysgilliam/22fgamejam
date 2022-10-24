@@ -19,7 +19,11 @@ public class PlayerController : MonoBehaviour
     public GameObject enragedSprite;
     public GameObject normalPlayer;
     public FollowPlayer camFlw;
+    public AudioSource howl;
     public static Vector2 lastMove = new Vector2(0, 1); 
+    public AudioSource music;
+    public AudioClip normalMusic;
+    public AudioClip rageMusic;
     
     void Start()
     { 
@@ -56,6 +60,7 @@ public class PlayerController : MonoBehaviour
 
    private void OnRage()
    {
+        howl.Play();
         enragedPlayer.SetActive(true);
         enragedSprite.SetActive(true);
         enragedRb.position = normalPlayer.transform.position + new Vector3(0f, offset, 0f);
@@ -69,6 +74,8 @@ public class PlayerController : MonoBehaviour
         movementY = 0;
         camFlw.player = enragedPlayer.transform;
         normalPlayer.SetActive(false);
+        music.clip = rageMusic;
+        music.Play();
     }
 
    void FixedUpdate()
